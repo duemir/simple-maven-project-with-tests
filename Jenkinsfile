@@ -11,7 +11,7 @@ spec:
       image: maven
       command:
       - sleep
-      arguments:
+      args:
       - infinity
 '''
         }
