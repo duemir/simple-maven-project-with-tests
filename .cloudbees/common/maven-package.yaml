@@ -1,0 +1,31 @@
+# nonk8s
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: Maven Package
+on:
+  push:
+    branches:
+      - "**"
+jobs:
+  build:
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+    steps:
+      - name: checkout
+        uses: cloudbees-io/checkout@v1
+      - name: verify
+        uses: docker://eclipse-temurin:21-jdk
+        shell: sh
+        run: |
+          sleep 120
+          ./mvnw --show-version --batch-mode --no-transfer-progress -Dmaven.test.failure.ignore verify
+      - name: Publish test results
+        uses: cloudbees-io/publish-test-results@v2
+        with:
+          test-type: JUNIT
+          results-path: ${{ cloudbees.workspace }}/target/surefire-reports
