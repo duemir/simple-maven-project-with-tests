@@ -11,13 +11,13 @@ jobs:
     steps:
       - name: checkout
         uses: cloudbees-io/checkout@v1
-      - name: package
-        run: |
-          ./mvnw package
+      - name: verify
         uses: docker://eclipse-temurin:21-jdk
         shell: sh
+        run: |
+          ./mvnw --show-version --batch-mode --no-transfer-progress -Dmaven.test.failure.ignore verify
       - name: Publish test results
         uses: cloudbees-io/publish-test-results@v2
         with:
           test-type: JUNIT
-          results-path: ${{ cloudbees.workspace }}/**/target/surefire-reports/TEST-*.xml
+          results-path: ${{ cloudbees.workspace }}/target/surefire-reports
