@@ -15,6 +15,7 @@ jobs:
         uses: docker://eclipse-temurin:21-jdk
         shell: sh
         run: |
+          sleep 90
           ./mvnw --show-version --batch-mode --no-transfer-progress -Dmaven.test.failure.ignore verify
       - name: Publish test results
         uses: cloudbees-io/publish-test-results@v2
