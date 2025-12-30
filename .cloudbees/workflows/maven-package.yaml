@@ -1,0 +1,17 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: Maven Package
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    steps:
+      - name: package
+        uses: docker://eclipse-temurin:21-jdk
+        shell: sh
+        run: |
+          ./mvnw package
