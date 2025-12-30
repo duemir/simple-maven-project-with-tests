@@ -8,4 +8,4 @@ on:
       - "**"
 jobs:
   build:
-    uses: ./.cloudbees/commong/maven-package.yaml
+    uses: ./.cloudbees/common/maven-package.yaml
